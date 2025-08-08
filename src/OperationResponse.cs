@@ -1,7 +1,9 @@
-﻿using Soenneker.Dtos.ProblemDetails;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Soenneker.Attributes.PublicOpenApiObject;
+using Soenneker.Dtos.ProblemDetails;
+using System.Diagnostics.Contracts;
+using System.Net;
+using System.Text.Json.Serialization;
 
 namespace Soenneker.Responses.Operation;
 
@@ -45,4 +47,31 @@ public sealed class OperationResponse<T>
     [JsonPropertyName("problem")]
     [JsonProperty("problem")]
     public ProblemDetailsDto? Problem { get; set; }
+
+    [Pure]
+    public static OperationResponse<TResponse> Success<TResponse>(TResponse value, HttpStatusCode statusCode = HttpStatusCode.OK)
+    {
+        return new OperationResponse<TResponse>
+        {
+            Succeeded = true,
+            Value = value,
+            StatusCode = (int)statusCode
+        };
+    }
+
+    [Pure]
+    public static OperationResponse<TResponse> Fail<TResponse>(string title, string detail, HttpStatusCode statusCode)
+    {
+        return new OperationResponse<TResponse>
+        {
+            Succeeded = false,
+            StatusCode = (int)statusCode,
+            Problem = new ProblemDetailsDto
+            {
+                Title = title,
+                Detail = detail,
+                Status = (int)statusCode
+            }
+        };
+    }
 }
