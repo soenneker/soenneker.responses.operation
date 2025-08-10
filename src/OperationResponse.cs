@@ -48,6 +48,10 @@ public sealed class OperationResponse
     [JsonProperty("problem")]
     public ProblemDetailsDto? Problem { get; set; }
 
+    [System.Text.Json.Serialization.JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    public bool Failed => !Succeeded;
+
     [Pure]
     public static OperationResponse<TResponse> Success<TResponse>(TResponse value, HttpStatusCode statusCode = HttpStatusCode.OK)
     {

@@ -45,4 +45,8 @@ public sealed class OperationResponse<T>
     [JsonPropertyName("problem")]
     [JsonProperty("problem")]
     public ProblemDetailsDto? Problem { get; set; }
+
+    [System.Text.Json.Serialization.JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    public bool Failed => !Succeeded;
 }
