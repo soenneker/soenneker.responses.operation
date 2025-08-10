@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Soenneker.Attributes.PublicOpenApiObject;
 using Soenneker.Dtos.ProblemDetails;
-using System.Diagnostics.Contracts;
-using System.Net;
 using System.Text.Json.Serialization;
 
 namespace Soenneker.Responses.Operation;
@@ -15,7 +13,7 @@ namespace Soenneker.Responses.Operation;
 /// The type of the successful result value returned by the operation.
 /// </typeparam>
 [PublicOpenApiObject]
-public sealed class OperationResponse
+public sealed class OperationResponse<T>
 {
     /// <summary>
     /// Gets a value indicating whether the operation completed successfully.
@@ -38,7 +36,7 @@ public sealed class OperationResponse
     /// </summary>
     [JsonPropertyName("value")]
     [JsonProperty("value")]
-    public object? Value { get; set; }
+    public T? Value { get; set; }
 
     /// <summary>
     /// Gets the problem details describing the error when the operation fails.
@@ -47,31 +45,4 @@ public sealed class OperationResponse
     [JsonPropertyName("problem")]
     [JsonProperty("problem")]
     public ProblemDetailsDto? Problem { get; set; }
-
-    [Pure]
-    public static OperationResponse<TResponse> Success<TResponse>(TResponse value, HttpStatusCode statusCode = HttpStatusCode.OK)
-    {
-        return new OperationResponse<TResponse>
-        {
-            Succeeded = true,
-            Value = value,
-            StatusCode = (int)statusCode
-        };
-    }
-
-    [Pure]
-    public static OperationResponse<TResponse> Fail<TResponse>(string title, string detail, HttpStatusCode statusCode)
-    {
-        return new OperationResponse<TResponse>
-        {
-            Succeeded = false,
-            StatusCode = (int)statusCode,
-            Problem = new ProblemDetailsDto
-            {
-                Title = title,
-                Detail = detail,
-                Status = (int)statusCode
-            }
-        };
-    }
 }
