@@ -11,11 +11,8 @@ namespace Soenneker.Responses.Operation;
 /// Represents the standardized outcome of an operation, containing either a successful result value
 /// or detailed error information in the form of a <see cref="ProblemDetailsDto"/>.
 /// </summary>
-/// <typeparam name="T">
-/// The type of the successful result value returned by the operation.
-/// </typeparam>
 [PublicOpenApiObject]
-public sealed class OperationResponse
+public class OperationResponse
 {
     /// <summary>
     /// Gets a value indicating whether the operation completed successfully.

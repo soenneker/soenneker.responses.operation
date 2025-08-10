@@ -13,40 +13,13 @@ namespace Soenneker.Responses.Operation;
 /// The type of the successful result value returned by the operation.
 /// </typeparam>
 [PublicOpenApiObject]
-public sealed class OperationResponse<T>
+public sealed class OperationResponse<T> : OperationResponse
 {
-    /// <summary>
-    /// Gets a value indicating whether the operation completed successfully.
-    /// </summary>
-    [JsonPropertyName("succeeded")]
-    [JsonProperty("succeeded")]
-    public bool Succeeded { get; set; }
-
-    /// <summary>
-    /// Gets the HTTP status code associated with the operation result.
-    /// This value reflects the outcome of the operation, such as 200 for success or 400 for a client error.
-    /// </summary>
-    [JsonPropertyName("statusCode")]
-    [JsonProperty("statusCode")]
-    public int StatusCode { get; set; }
-
     /// <summary>
     /// Gets the value returned when the operation succeeds.
     /// This property is <see langword="null"/> when the operation fails.
     /// </summary>
     [JsonPropertyName("value")]
     [JsonProperty("value")]
-    public T? Value { get; set; }
-
-    /// <summary>
-    /// Gets the problem details describing the error when the operation fails.
-    /// This property is <see langword="null"/> when the operation succeeds.
-    /// </summary>
-    [JsonPropertyName("problem")]
-    [JsonProperty("problem")]
-    public ProblemDetailsDto? Problem { get; set; }
-
-    [System.Text.Json.Serialization.JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
-    public bool Failed => !Succeeded;
+    public new T? Value { get; set; }
 }
